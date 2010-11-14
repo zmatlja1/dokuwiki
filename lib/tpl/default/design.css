@@ -374,8 +374,8 @@ div.dokuwiki img.mediacenter {
   margin: 0 auto;
 }
 
-/* smileys */
-div.dokuwiki img.middle {
+/* smileys, etc */
+div.dokuwiki img.icon {
   vertical-align: middle;
 }
 
