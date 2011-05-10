@@ -1,13 +1,13 @@
 <?php
 /**
-* Description of IJR_Server
-*
-* @author Andreas Gohr <andi@splitbrain.org>
-* @author Gina Haeussge <osd@foosel.net>
-* @author Michael Klier <chi@chimeric.de>
-* @author Michael Hamann <michael@content-space.de>
-* @author Magnus Wolf <mwolf2706@googlemail.com>
-*/
+ * Description of IJR_Server
+ *
+ * @author  Andreas Gohr <andi@splitbrain.org>
+ * @author Gina Haeussge <osd@foosel.net>
+ * @author Michael Klier <chi@chimeric.de>
+ * @author Michael Hamann <michael@content-space.de>
+ * @author Magnus Wolf <mwolf2706@googlemail.com>
+ */
 
 if(!defined('DOKU_INC')) define('DOKU_INC',dirname(__FILE__).'/../../../');
 
@@ -15,15 +15,15 @@ if(!defined('DOKU_INC')) define('DOKU_INC',dirname(__FILE__).'/../../../');
 if(isset($HTTP_RAW_POST_DATA)) $HTTP_RAW_POST_DATA = trim($HTTP_RAW_POST_DATA);
 
 /**
-* Increased whenever the API is changed
-*/
+ * Increased whenever the API is changed
+ */
 define('DOKU_JSONRPC_API_VERSION',2);
 
 require_once(DOKU_INC.'inc/init.php');
 require_once(DOKU_INC.'inc/common.php');
 require_once(DOKU_INC.'inc/auth.php');
 require_once(DOKU_INC.'inc/pluginutils.php');
-session_write_close(); //close session
+session_write_close();  //close session
 
 if(plugin_isdisabled('jsonrpc'))
 {
@@ -38,7 +38,7 @@ require_once('./IJR_CallbackDefines.php');
 
 
 class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
-    var $methods = array();
+    var $methods       = array();
     var $public_methods = array();
     private $callbackMethods;
     private $config;
@@ -54,7 +54,7 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
             return true;
         }
 
-        $user = $_SERVER['REMOTE_USER'];
+        $user   = $_SERVER['REMOTE_USER'];
         $allowed_users = explode(';',$this->config['allowed']);
         $allowed_users = array_map('trim', $allowed_users);
         $allowed_users = array_unique($allowed_users);
@@ -114,11 +114,11 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
         return $conf['title'];
     }
 
-    public function appendPage($page, $text, $opt)
+    public function appendPage($id, $text, $params)
     {
-       $page_cont = $this->rawPage($page);
-       $page_cont = $page_cont."\n".$text;
-       return saveWikiText($page, $tmp, $opt);
+       $pageId = $this->rawPage($id);
+       $page_cont = $pageId."\n".$text;
+       return saveWikiText($pageId, $page_cont, $params);
     }
 
     public function getAttachment($id){
@@ -170,7 +170,7 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
     public function listPages(){
         global $conf;
 
-        $list = array();
+        $list  = array();
         $pages = file($conf['indexdir'] . '/page.idx');
         $pages = array_filter($pages, 'isVisiblePage');
 
@@ -234,7 +234,7 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
         }
     }
 
-    public function search($searchString)
+    public function search($query)
     {
         require_once(DOKU_INC.'inc/html.php');
         require_once(DOKU_INC.'inc/search.php');
@@ -244,7 +244,7 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
         $data = array();
         $result = array();
 
-        $searchStr = cleanID($searchString);
+        $searchStr = cleanID($query);
         $data = ft_pageLookup($searchStr);
         foreach($data as $id)
         {
@@ -257,7 +257,7 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
             $result[] = $id;
         }
 
-        $data = ft_pageSearch($searchString, $regex);
+        $data = ft_pageSearch($query, $regex);
         if(count($data))
         {
             foreach($data as $id => $cnt)
@@ -286,10 +286,10 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
         $info = getRevisionInfo($id, $time, 1024);
 
         $data = array(
-            'name' => $id,
+            'name'         => $id,
             'lastModified' => new IJR_Date($time),
-            'author' => (($info['user']) ? $info['user'] : $info['ip']),
-            'version' => $time
+            'author'       => (($info['user']) ? $info['user'] : $info['ip']),
+            'version'      => $time
         );
 
         return ($data);
@@ -300,9 +300,9 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
         global $lang;
         global $conf;
 
-        $id = cleanID($id);
-        $TEXT = cleanText($text);
-        $sum = $params['sum'];
+        $id    = cleanID($id);
+        $TEXT  = cleanText($text);
+        $sum   = $params['sum'];
         $minor = $params['minor'];
 
         if(empty($id))
@@ -492,7 +492,7 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
         $links = array();
 
         // resolve page instructions
-        $ins = p_cached_instructions(wikiFN(cleanID($id)));
+        $ins   = p_cached_instructions(wikiFN(cleanID($id)));
 
         // instantiate new Renderer - needed for interwiki links
         include(DOKU_INC.'inc/parser/xhtml.php');
@@ -541,12 +541,12 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
 
         foreach ($recents as $recent) {
             $change = array();
-            $change['name'] = $recent['id'];
+            $change['name']         = $recent['id'];
             $change['lastModified'] = new IJR_Date($recent['date']);
-            $change['author'] = $recent['user'];
-            $change['version'] = $recent['date'];
-            $change['perms'] = $recent['perms'];
-            $change['size'] = @filesize(wikiFN($recent['id']));
+            $change['author']       = $recent['user'];
+            $change['version']      = $recent['date'];
+            $change['perms']        = $recent['perms'];
+            $change['size']         = @filesize(wikiFN($recent['id']));
             array_push($changes, $change);
         }
 
@@ -571,12 +571,12 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
 
         foreach ($recents as $recent) {
             $change = array();
-            $change['name'] = $recent['id'];
+            $change['name']         = $recent['id'];
             $change['lastModified'] = new IJR_Date($recent['date']);
-            $change['author'] = $recent['user'];
-            $change['version'] = $recent['date'];
-            $change['perms'] = $recent['perms'];
-            $change['size'] = @filesize(mediaFN($recent['id']));
+            $change['author']       = $recent['user'];
+            $change['version']      = $recent['date'];
+            $change['perms']        = $recent['perms'];
+            $change['size']         = @filesize(mediaFN($recent['id']));
             array_push($changes, $change);
         }
 
@@ -610,8 +610,8 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
         }
 
         if(count($revisions)>0 && $first==0) {
-            array_unshift($revisions, ''); // include current revision
-            array_pop($revisions); // remove extra log entry
+            array_unshift($revisions, '');  // include current revision
+            array_pop($revisions);          // remove extra log entry
         }
 
         $hasNext = false;
@@ -631,9 +631,9 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
                     $info = getRevisionInfo($id, $time, 1024);
                     if(!empty($info)) {
                         $data['user'] = $info['user'];
-                        $data['ip'] = $info['ip'];
+                        $data['ip']   = $info['ip'];
                         $data['type'] = $info['type'];
-                        $data['sum'] = $info['sum'];
+                        $data['sum']  = $info['sum'];
                         $data['modified'] = new IJR_Date($info['date']);
                         $data['version'] = $info['date'];
                         array_push($versions, $data);
@@ -647,9 +647,9 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
     }
 
     public function setLocks($set){
-        $locked = array();
-        $lockfail = array();
-        $unlocked = array();
+        $locked     = array();
+        $lockfail   = array();
+        $unlocked   = array();
         $unlockfail = array();
 
         foreach($set['lock'] as $id){
@@ -670,11 +670,15 @@ class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
         }
 
         return array(
-            'locked' => $locked,
-            'lockfail' => $lockfail,
-            'unlocked' => $unlocked,
+            'locked'     => $locked,
+            'lockfail'   => $lockfail,
+            'unlocked'   => $unlocked,
             'unlockfail' => $unlockfail,
         );
+    }
+    
+    public function getAPIVersion(){
+        return DOKU_JSONRPC_API_VERSION;
     }
 
     public function login($user,$pass){
