@@ -23,60 +23,58 @@
   * add another parameter to define if anonymous access to
   * this method should be granted.
   */
-  function addCallback($method, $callback, $args, $help, $public = false);
+  public function addCallback($method, $callback, $args, $help, $public = false);
   
  /**
   * Execute a call, extends parent method
   *
   * Checks for authentication first
   */
-  function call($methodname, $args);
-  
-  /// Kontruktor - tam se zaregistrujou metody a spusti se
+  public function call($methodname, $args);
   
  /**
   * Return a raw wiki page
   */
-  function rawPage($id, $rev = '');
+  public function rawPage($id, $rev = '');
   
  /**
   * Returns the wiki title.
   */
-  function getTitle();
+  public function getTitle();
   
  /**
   * Appends text to a wiki page.
   */
-  function appendPage($id, $text, $params);
+  public function appendPage($id, $text, $params);
  
  /**
   * Return a media file encoded in base64
   *
   * @author Gina Haeussge <osd@foosel.net>
   */
-  function getAttachment($id);
+  public function getAttachment($id);
   
  /**
   * Return info about a media file
   *
   * @author Gina Haeussge <osd@foosel.net>
   */
-  function getAttachmentInfo($id);
+  public function getAttachmentInfo($id);
   
  /**
   * Return a wiki page rendered to html
   */
-  function htmlPage($id, $rev = '');
+  public function htmlPage($id, $rev = '');
   
  /**
   * List all pages - we use the indexer list here
   */
-  function listPages();
+  public function listPages();
   
  /**
   * List all pages in the given namespace (and below)
   */
-  function readNamespace($ns, $opts);
+  public function readNamespace($ns, $opts);
   
  /**
   * List all media files.
@@ -87,55 +85,55 @@
   *   
   * @author Gina Haeussge <osd@foosel.net>
   */
-  function listAttachments($ns, $options = array());
+  public function listAttachments($ns, $options = array());
   
  /**
   * List all pages in the given namespace (and below)
   */
-  function search($query);
+  public function search($query);
   
  /**
   * Return a list of backlinks
   */
-  function listBackLinks($id);
+  public function listBackLinks($id);
   
  /**
   * Return some basic data about a page
   */
-  function pageInfo($id, $rev = '');
+  public function pageInfo($id, $rev = '');
   
  /**
   * Save a wiki page
   *
   * @author Michael Klier <chi@chimeric.de>
   */
-  function putPage($id, $text, $params);
+  public function putPage($id, $text, $params);
   
  /**
   * Uploads a file to the wiki.
   *
   * Michael Klier <chi@chimeric.de>
   */
-  function putAttachment($id, $file, $params);
+  public function putAttachment($id, $file, $params);
   
  /**
   * Deletes a file from the wiki.
   *
   * @author Gina Haeussge <osd@foosel.net>
   */
-  function deleteAttachment($id);
+  public function deleteAttachment($id);
   
  /**
   * Returns the permissions of a given wiki page
   */
-  function aclCheck($id);
+  public function aclCheck($id);
   
  /**
   * Lists all links contained in a wiki page
   *
   * @author Michael Klier <chi@chimeric.de>
   */
-  function listLinks($id);
+  public function listLinks($id);
   
  /**
   * Returns a list of recent changes since give timestamp
@@ -143,7 +141,7 @@
   * @author Michael Hamann <michael@content-space.de>
   * @author Michael Klier <chi@chimeric.de>
   */
-  function getRecentChanges($timestamp);
+  public function getRecentChanges($timestamp);
   
  /**
   * Returns a list of recent media changes since give timestamp
@@ -151,14 +149,14 @@
   * @author Michael Hamann <michael@content-space.de>
   * @author Michael Klier <chi@chimeric.de>
   */
-  function getRecentMediaChanges($timestamp);
+  public function getRecentMediaChanges($timestamp);
   
  /**
   * Returns a list of available revisions of a given wiki page
   *
   * @author Michael Klier <chi@chimeric.de>
   */
-  function pageVersions($id, $first, $num = null);
+  public function pageVersions($id, $first, $num = null);
   
  /**
   * Locks or unlocks a given batch of pages
@@ -169,18 +167,18 @@
   * Returns an associative array with the keys locked, lockfail, unlocked and
   * unlockfail, each containing lists of pages.
   */
-  function setLocks($set);
+  public function setLocks($set);
   
   /**
    *  Returns actual version of RPC API
    *
    */  
-  function getAPIVersion();
+  public function getAPIVersion();
   
   /**
    * Authorization user  
    */
-  function login($user,$pass);
+  public function login($user,$pass);
 
 }
 
