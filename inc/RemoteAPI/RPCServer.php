@@ -16,8 +16,8 @@
  
   function RPCServer($server)
   {
-    $this->server = $server;
     parent::__construct();
+    $this->server = $server;    
   }
   
  /**
