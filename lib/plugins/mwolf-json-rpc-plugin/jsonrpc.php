@@ -37,7 +37,7 @@ require_once('./IJR_CallbackDefines.php');
 
 
 
-class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer {
+class dokuwiki_jsonrpc_server extends IJR_IntrospectionServer implements IRemoteAPI {
     var $methods       = array();
     var $public_methods = array();
     private $callbackMethods;

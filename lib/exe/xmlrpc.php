@@ -18,7 +18,7 @@ if(!$conf['xmlrpc']) die('XML-RPC server not enabled.');
  * Contains needed wrapper functions and registers all available
  * XMLRPC functions.
  */
-class dokuwiki_xmlrpc_server extends IXR_IntrospectionServer {
+class dokuwiki_xmlrpc_server extends IXR_IntrospectionServer implements IRemoteAPI {
     var $methods       = array();
     var $public_methods = array();
 
