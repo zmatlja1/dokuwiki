@@ -10,7 +10,7 @@
  *
  */
  
-class RPCFactoryServer {
+abstract class RPCFactoryServer {
   
  /**
   * Type is used for XML RPC API    
